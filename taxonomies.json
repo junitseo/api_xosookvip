@@ -1,0 +1,101 @@
+[
+  {
+    "_id": {
+      "$oid": "6337d56db9c1bedfe3c9991f"
+    },
+    "tax_name": "Giải mã giấc mơ",
+    "tax_type": "category",
+    "tax_slug": "giai-ma-giac-mo",
+    "tax_description": ""
+  },
+  {
+    "_id": {
+      "$oid": "6337d650b9c1bedfe3c99813"
+    },
+    "tax_name": "Soi cầu Miền Bắc",
+    "tax_slug": "soi-cau-mien-bac",
+    "tax_type": "category",
+    "tax_description": ""
+  },
+  {
+    "_id": {
+      "$oid": "6337d650b9c1bedfe3c99814"
+    },
+    "tax_name": "Soi cầu Miền Trung",
+    "tax_slug": "soi-cau-mien-trung",
+    "tax_type": "category",
+    "tax_description": ""
+  },
+  {
+    "_id": {
+      "$oid": "6337d650b9c1bedfe3c99815"
+    },
+    "tax_name": "Soi cầu Miền Nam",
+    "tax_slug": "soi-cau-mien-nam",
+    "tax_type": "category",
+    "tax_description": ""
+  },
+  {
+    "_id": {
+      "$oid": "6337d650b9c1bedfe3c99816"
+    },
+    "tax_name": "Soi cầu giải Đặc Biệt",
+    "tax_slug": "soi-cau-giai-dac-biet",
+    "tax_type": "category",
+    "tax_description": ""
+  },
+  {
+    "_id": {
+      "$oid": "6337d650b9c1bedfe3c99817"
+    },
+    "tax_name": "Soi cầu lô tô",
+    "tax_slug": "soi-cau-lo-to",
+    "tax_type": "category",
+    "tax_description": ""
+  },
+  {
+    "_id": {
+      "$oid": "6337d650b9c1bedfe3c99818"
+    },
+    "tax_name": "Soi cầu bạch thủ",
+    "tax_slug": "soi-cau-bach-thu",
+    "tax_type": "category",
+    "tax_description": ""
+  },
+  {
+    "_id": {
+      "$oid": "6337d650b9c1bedfe3c99819"
+    },
+    "tax_name": "Soi cầu theo thứ",
+    "tax_slug": "soi-cau-theo-thu",
+    "tax_type": "category",
+    "tax_description": ""
+  },
+  {
+    "_id": {
+      "$oid": "6337d650b9c1bedfe3c99820"
+    },
+    "tax_name": "Soi cầu 3 càng",
+    "tax_slug": "soi-cau-3-cang",
+    "tax_type": "category",
+    "tax_description": ""
+  },
+  {
+    "_id": {
+      "$oid": "6337d650b9c1bedfe3c99821"
+    },
+    "tax_name": "Soi cầu lô xiên",
+    "tax_slug": "soi-cau-lo-xien",
+    "tax_type": "category",
+    "tax_description": ""
+  },
+  {
+    "_id": {
+      "$oid": "647ae661bc84c248d38b09b9"
+    },
+    "tax_name": "Thông tin",
+    "tax_slug": "thong-tin",
+    "tax_type": "category",
+    "tax_description": ""
+  }
+]
