@@ -13,6 +13,7 @@ const originAllow = [
   "http://localhost:3001",
   "http://localhost:3002",
   "http://localhost:3011",
+  "http://localhost:3039",
   "https://admin.kqxs.com.vn",
   "https://xosoaladin.com",
   "https://api.xosothantai.club",
@@ -163,6 +164,7 @@ setInterval(() => {
   ) {
     crawlDataMNV2(addingZeroToDate(dataNow));
   }
+
 }, 2000);
 
 cron.schedule("0 0 7 * * *", () => {

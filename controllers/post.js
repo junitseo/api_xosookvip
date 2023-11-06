@@ -261,7 +261,7 @@ exports.getPostBySlug = async (req, res) => {
   if (slug) {
     Post.findOne({ post_slug: slug })
       .select(
-        "id post_type post_title post_views post_status post_userid post_image post_content post_slug post_description post_schemaid post_taxid post_tags focus_keyword post_src_thumb"
+        "id post_type post_title post_views post_status post_userid post_image post_content post_slug post_description post_schemaid post_taxid post_tags focus_keyword post_src_thumb "
       )
       .exec((err, data) => {
         if (err) {
@@ -427,7 +427,7 @@ exports.create = (req, res) => {
     post.post_slug = post_slug.toLowerCase();
   }
   // let arrayOfTax = post_taxid && post_taxid.split(",");
-  let arrayOfSchema = post_schemaid && post_schemaid.split(",");
+  let arrayOfSchema = post_schemaid && post_schemaid.toString().split(",");
   // let arrayOfTags = post_tags && post_tags.split(",");
   // console.log("arrayOfTags: ", arrayOfTags);
   post.save((err, result) => {
@@ -1105,6 +1105,10 @@ exports.getPostByTaxNew = (req, res) => {
         });
       }
     });
+  } else {
+    return res.status(400).json({
+      error: "Tax slug or post status not found",
+    });
   }
 };
 
@@ -1300,8 +1304,8 @@ exports.getMax = (req, res) => {
       });
     }
     return res.json({
-      max: data[0].count,
-      date: data[0].createdAt,
+      max: data[0]?.count,
+      date: data[0]?.createdAt,
     });
   });
 };
@@ -1325,8 +1329,8 @@ exports.getMin = (req, res) => {
       });
     }
     return res.json({
-      min: data[0].count,
-      date: data[0].createdAt,
+      min: data[0]?.count,
+      date: data[0]?.createdAt,
     });
   });
 };
@@ -1376,9 +1380,9 @@ exports.getMinUser = async (req, res) => {
       });
     }
     return res.json({
-      min: data[0].count,
-      date: data[0].createdAt,
-      username: data[0].username,
+      min: data[0]?.count,
+      date: data[0]?.createdAt,
+      username: data[0]?.username,
     });
   });
 };
@@ -1428,9 +1432,9 @@ exports.getMaxUser = async (req, res) => {
       });
     }
     return res.json({
-      max: data[0].count,
-      date: data[0].createdAt,
-      username: data[0].username,
+      max: data[0]?.count,
+      date: data[0]?.createdAt,
+      username: data[0]?.username,
     });
   });
 };

@@ -10,6 +10,7 @@ const bodyParser = require('body-parser');
 router.get('/', function(req, res){
     
 })
+
 router.get('/days/:days/toDate/:toDate/rangeFrom/:rangeFrom/rangeTo/:rangeTo/sortBy/:sortBy/mode/:mode/provinceId/:provinceId', async function (req, res) {
     var days = parseInt(req.params.days);
     var toDate = req.params.toDate;
@@ -34,7 +35,6 @@ router.get('/days/:days/toDate/:toDate/rangeFrom/:rangeFrom/rangeTo/:rangeTo/sor
     }
 
 });
-
 
 async function LoDeStatistics (days, toDate, rangeFrom, rangeTo, sortBy, mode, provinceId){
     var listResult = [];
@@ -95,4 +95,5 @@ async function LoDeStatistics (days, toDate, rangeFrom, rangeTo, sortBy, mode, p
 
     }
 }
+
 module.exports = router;

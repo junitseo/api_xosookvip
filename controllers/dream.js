@@ -49,8 +49,11 @@ class Dream {
                         console.log(error)
                     }
                 }
+            } else {
+                return res.status(200).json({message: 'Not have data'})
             }
         })
+
     }
 }
 

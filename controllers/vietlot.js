@@ -104,7 +104,7 @@ exports.getMax4D = async function (req, res) {
     };
     return res.status(200).json(data);
   } else {
-    crawlDataMax4D(today);
+    // crawlDataMax4D(today);
     setTimeout(async () => {
       var result = await getDataMax4D(today);
       var data = {
@@ -907,6 +907,7 @@ async function crawlDataMega645(date) {
     }
   });
 }
+
 async function crawlDataPower655(date) {
   var ngayXo = date;
   url = `https://xskt.com.vn/xspower/ngay-${ngayXo}`;

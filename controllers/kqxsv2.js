@@ -729,12 +729,13 @@ exports.crawlDataMTV2 = crawlDataMTV2;
 
 async function crawlDataMBV2(date) {
   let ngayXo = date;
+  const dateNow = new Date();
   url = `https://www.minhngoc.net.vn/ket-qua-xo-so/mien-bac/${ngayXo}.html`;
   if (
-    new Date().getHours() == 18 &&
-    new Date().getMinutes() >= 5 &&
-    new Date().getHours() <= 45 &&
-    ngayXo == addingZeroToDate(new Date())
+    dateNow.getHours() == 18 &&
+    dateNow.getMinutes() >= 5 &&
+    dateNow.getHours() <= 45 &&
+    ngayXo == addingZeroToDate(dateNow)
   ) {
     url = "https://www.minhngoc.net.vn/xo-so-truc-tiep/mien-bac.html";
   }
@@ -750,12 +751,12 @@ async function crawlDataMBV2(date) {
         .text()
         ?.replaceAll("/", "-");
       if (
-        new Date().getHours() == 18 &&
-        new Date().getMinutes() >= 5 &&
-        new Date().getHours() <= 45 &&
-        ngayXo == addingZeroToDate(new Date())
+        dateNow.getHours() == 18 &&
+        dateNow.getMinutes() >= 5 &&
+        dateNow.getHours() <= 45 &&
+        ngayXo == addingZeroToDate(dateNow)
       ) {
-        ngay_xo = addingZeroToDate(new Date());
+        ngay_xo = addingZeroToDate(dateNow);
       }
       if (ngay_xo == date) {
         var idDai1 = 1;
@@ -862,7 +863,7 @@ const recursiveCheck = async (number, date, province) => {
 };
 
 const checkKqxs = async (req, res) => {
-  if (!req.body.number || req.body.number?.length != 6) {
+  if (!req.body.number || req.body.number?.length > 6) {
     return res.status(200).json({ kqxs: {} });
   }
   try {
@@ -880,3 +881,4 @@ const checkKqxs = async (req, res) => {
 };
 
 exports.checkKqxs = checkKqxs;
+
