@@ -1,4 +1,7 @@
+const {dashLogger} = require('../logger');
 const PerpetualCalendar = require("../models/perpetualCalendar");
+var request = require('request');
+var cheerio = require("cheerio");
 
 const crawlDataPerpetualCalendar = async (date, res) => {
     const url = `https://www.xoso88.info/lich-van-nien-ngay-${date}.html`;

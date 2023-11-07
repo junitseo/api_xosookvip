@@ -9,45 +9,50 @@ const mongoose = require("mongoose");
 const Router = require("./routes/index");
 const bodyParser = require("body-parser");
 const originAllow = [
-  "http://localhost:3000",
-  "http://localhost:3001",
-  "http://localhost:3002",
-  "http://localhost:3011",
   "http://localhost:3039",
-  "https://admin.kqxs.com.vn",
-  "https://xosoaladin.com",
-  "https://api.xosothantai.club",
-  "https://xosothantai.club",
-  "https://admin.xosoaladin.com",
-  "https://dandeonline.com",
+  "https://xosookvip.com",
+  "https://admin.xosookvip.com",
 ];
+
+const corsOptions = {
+  allowedHeaders: [
+    "Origin",
+    "X-Requested-With",
+    "Content-Type",
+    "Accept",
+    "X-Access-Token",
+    "Authorization",
+  ],
+  credentials: true,
+  methods: "GET, HEAD, OPTIONS, PUT, PATCH, POST, DELETE",
+  origin: originAllow,
+  preflightContinue: false,
+};
+
 const User = require("./models/user");
 const Role = require("./models/role");
 const bcrypt = require("bcryptjs");
-const {
-  getXSMB,
-  getXSMT,
-  getXSMN,
-  crawlDataMB,
-  crawlDataMN,
-  crawlDataMT,
-} = require("./controllers/kqxs");
 const addingZeroToDate = require("./helpers/addingZeroToDate");
+
 const {
   crawlDataMNV2,
   crawlDataMTV2,
   crawlDataMBV2,
 } = require("./controllers/kqxsv2");
+
 const path = require("path");
 const cron = require("node-cron");
 const { autoCreatePost } = require("./controllers/post");
 
-app.use(morgan("combined"));
-app.use(cors({ origin: originAllow, credentials: true }));
+app.use(morgan("dev"));
+app.use(cors(corsOptions));
 app.use(expressFileUpload());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.options(cors());
 app.use(express.static(path.join(__dirname, "assets/images")));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 Router(app);
 mongoose.set("strictQuery", false);
