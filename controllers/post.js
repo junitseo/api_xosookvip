@@ -261,7 +261,7 @@ exports.getPostBySlug = async (req, res) => {
   if (slug) {
     Post.findOne({ post_slug: slug })
       .select(
-        "id post_type post_title post_views post_status post_userid post_image post_content post_slug post_description post_schemaid post_taxid post_tags focus_keyword post_src_thumb"
+        "id post_type post_title post_views post_status post_userid post_image post_content post_slug post_description post_schemaid post_taxid post_tags focus_keyword post_src_thumb createdAt"
       )
       .exec((err, data) => {
         if (err) {
