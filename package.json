@@ -53,6 +53,8 @@
     "socket.io": "^4.4.1",
     "string-strip-html": "^8.3.0",
     "underscore": "^1.13.2",
-    "validator": "^13.7.0"
+    "validator": "^13.7.0",
+    "winston": "^3.11.0",
+    "winston-daily-rotate-file": "^4.7.1"
   }
 }

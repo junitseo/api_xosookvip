@@ -1,12 +1,12 @@
-const PerpetualCalendar = require("../models/perpetualCalendar");
+const StatisticsOfNorthernLot = require("../models/statisticsOfNorthernLot");
 const {dashLogger} = require('../logger');
-const { crawlDataPerpetualCalendar } = require("../stores/perpetualCalendar");
+const { crawlDataLottoStatistics } = require("../stores/statisticsOfNorthernLot");
 
-exports.getPerpetualCalendar = (req, res) => {
+exports.getStatisticsOfNorthernLot = (req, res) => {
     let date = req.params.date ? req.params.date : null;
     try {
         if (date) {
-            PerpetualCalendar.findOne({
+            StatisticsOfNorthernLot.findOne({
                 date: date
             }).exec(async (err, data) => {
                 if (err) {
@@ -15,7 +15,7 @@ exports.getPerpetualCalendar = (req, res) => {
                     if (data) {
                         return res.status(200).json(data);
                     } else {
-                        crawlDataPerpetualCalendar(date, res);
+                        crawlDataLottoStatistics(date, res);
                     }
                 }
             });
@@ -23,7 +23,7 @@ exports.getPerpetualCalendar = (req, res) => {
             return res.status(400).json("Please enter date")
         }
     } catch (err) {
-        dashLogger.error(`Error : ${err},Request : ${req.originalUrl}`);
+        dashLogger.error(`Error : ${err},Request : ${req?.originalUrl}`);
         return res.status(400).json({
             message: err.message
         })

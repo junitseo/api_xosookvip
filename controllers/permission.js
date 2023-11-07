@@ -10,8 +10,6 @@ const getAllPermission = async (req, res) => {
     }
 }
 
-
-
 module.exports = {
     getAllPermission
 }

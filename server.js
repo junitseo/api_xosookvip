@@ -164,7 +164,6 @@ setInterval(() => {
   ) {
     crawlDataMNV2(addingZeroToDate(dataNow));
   }
-
 }, 2000);
 
 cron.schedule("0 0 7 * * *", () => {
