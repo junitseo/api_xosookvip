@@ -21,12 +21,12 @@ const pageRouter = require("./page");
 const homeBannerRouter = require("./homeBanner");
 const informationRouter = require("./information");
 const seoRouter = require("./seo.router");
+const perpetualCalendarRouter = require("./perpetualCalendar");
 
 module.exports = (app) => {
   app.use("/api/v1/categories", categoriesRouter);
   app.use("/lotoPredictions", lotoPredictionRouter);
   app.use("/LotoStatistics", lotoStatisticRouter);
-  app.use("/api/v1/max4d", max4Drouter);
   app.use("/api/v1/mega645", mega645router);
   app.use("/api/v1/power655", power655router);
   app.use("/api/v1/provinces", provinceRouter);
@@ -47,4 +47,5 @@ module.exports = (app) => {
   app.use("/api/v1/home-banner", homeBannerRouter);
   app.use("/api/v1/information", informationRouter);
   app.use("/api/v1/seo", seoRouter);
+  app.use("/api/v1/perpetualCalendar", perpetualCalendarRouter);
 };
