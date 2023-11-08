@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const StatisticsOfNorthernLotSchema = new mongoose.Schema({
+const headAndEndLotteryStatisticSchema = new mongoose.Schema({
     date: {
         type: String,
     },
@@ -12,4 +12,4 @@ const StatisticsOfNorthernLotSchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('StatisticsOfNorthernLot', StatisticsOfNorthernLotSchema);
+module.exports = mongoose.model('HeadAndEndLotteryStatistic', headAndEndLotteryStatisticSchema);
