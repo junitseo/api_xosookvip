@@ -2309,3 +2309,120 @@ exports.getResultTanSuat = async (req, res) => {
     return res.status(500);
   }
 };
+exports.getResultTomorrow = async (req, res) => {
+  try {
+    const date = req.query.date;
+    let now = moment().format("DD-MM-YYYY");
+    if(date){
+      if(moment(date) <= moment(now)){
+        now = date;
+      }
+    }
+    
+    let result = await KQXS.findOne({dayPrize: now, prizeId: 1, region: 1}).lean()
+    if(!result){
+      now = moment().subtract(1, 'days').format("DD-MM-YYYY")
+      result = await KQXS.findOne({dayPrize: now, prizeId: 1, region: 1}).lean()
+    }
+    if(!result) {
+      return res.json({success: false, message: "Có lỗi xảy ra"});
+    }
+    // find all item have 2 number end same
+    const data = []
+    const allSameLoto = await KQXS.find({loto: result.loto, prizeId: 1, region: 1});
+    for await (const item of allSameLoto) {
+      if(!item._id.equals(result._id)){
+        const tomorrow = moment(item.dayPrize, 'DD-MM-YYYY').add(1, 'days').format("DD-MM-YYYY")
+        const d = await KQXS.findOne({dayPrize: tomorrow, prizeId: 1, region: 1}).lean();
+        data.push({current: item, tomorrow: d })
+      }
+    }
+    const dayTomorrow = moment(now, "DD-MM-YYYY").add(1, 'days').format("DD-MM");
+    let dataYear = await KQXS.aggregate([
+      {
+        $match: {
+          dayPrize: {
+            $regex: `^${dayTomorrow}`
+          },
+          prizeId: 1,
+          region: 1,
+        }
+      },    
+    ])
+    return res.json({current: result, data, dataYear});
+
+  } catch (error) {
+    return res.json({message: error.message});
+  }
+
+}
+exports.getSpecialPrizeStatistics = async (req, res) => {
+  const year = 2023;
+  try {
+    const startDate = new Date('2023-01-01'); // Ngày bắt đầu của khoảng
+    const endDate = new Date('2023-12-31'); // Ngày kết thúc của khoảng
+    let result = await KQXS.aggregate([
+      {
+        $addFields: {
+          dayPrizeDate: {
+            $dateFromString: {
+              dateString: '$dayPrize',
+              format: '%d-%m-%Y'
+            }
+          }
+        }
+      },
+      {
+        $match: {
+          prizeId: 1,
+          region: 1,
+          dayPrizeDate: {
+            $gte: startDate,
+            $lte: endDate
+          },
+        }
+      },
+      {
+        $sort: { dayPrizeDate: 1}
+      }
+    ])
+
+    const data = []
+    if(result && result.length > 0) {
+      let choose = null;
+      for (let i = 1; i <= 12; i++) {
+        if(result.length <= 0){
+          break;
+        }
+        for (let y = 1; y <= 31; y++) {
+            if(result.length <= 0){
+              break;
+            }
+            const m = i < 10 ? "0" + i: i;
+            const d = y < 10 ? "0" + y: y;
+            const date = d + "-" + m + "-" + year;
+            if(choose){
+              if(choose.dayPrize == date){
+                data.push(choose);
+                choose = null;
+              }else {
+                data.push(null);
+              }
+            }else {
+              choose = result.shift();
+              if(choose.dayPrize == date){
+                data.push(choose);
+                choose = null;
+              }else {
+                data.push(null);
+              }
+            }
+        }
+      }
+    }
+
+    return res.json(data);
+  } catch (error) {
+    return res.json({message: error.message});
+  }
+}
