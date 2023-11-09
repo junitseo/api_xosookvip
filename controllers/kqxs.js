@@ -2357,10 +2357,13 @@ exports.getResultTomorrow = async (req, res) => {
 
 }
 exports.getSpecialPrizeStatistics = async (req, res) => {
-  const year = 2023;
+  let year = 2023;
   try {
-    const startDate = new Date('2023-01-01'); // Ngày bắt đầu của khoảng
-    const endDate = new Date('2023-12-31'); // Ngày kết thúc của khoảng
+    if(req.query.year) {
+      year = req.query.year;
+    }
+    const startDate = new Date(`${year}-01-01`); // Ngày bắt đầu của khoảng
+    const endDate = new Date(`${year}-12-31`); // Ngày kết thúc của khoảng
     let result = await KQXS.aggregate([
       {
         $addFields: {
@@ -2383,6 +2386,19 @@ exports.getSpecialPrizeStatistics = async (req, res) => {
         }
       },
       {
+        $group: {
+          _id: {
+            dayPrize: '$dayPrizeDate'
+          },
+          firstEntry: { $first: '$$ROOT' }
+        }
+      },
+      {
+        $replaceRoot: {
+          newRoot: '$firstEntry'
+        }
+      },    
+      {
         $sort: { dayPrizeDate: 1}
       }
     ])
@@ -2391,12 +2407,10 @@ exports.getSpecialPrizeStatistics = async (req, res) => {
     if(result && result.length > 0) {
       let choose = null;
       for (let i = 1; i <= 12; i++) {
-        if(result.length <= 0){
-          break;
-        }
         for (let y = 1; y <= 31; y++) {
             if(result.length <= 0){
-              break;
+              data.push(null);
+              continue;
             }
             const m = i < 10 ? "0" + i: i;
             const d = y < 10 ? "0" + y: y;
@@ -2422,6 +2436,127 @@ exports.getSpecialPrizeStatistics = async (req, res) => {
     }
 
     return res.json(data);
+  } catch (error) {
+    return res.json({message: error.message});
+  }
+}
+
+exports.getSpecialPrizeStatisticsDayOfWeek = async (req, res) => {
+  let year = 2023;
+  try {
+    if(req.query.year) {
+      year = req.query.year;
+    }
+    const startDate = new Date(`${year}-01-01`); // Ngày bắt đầu của khoảng
+    const endDate = new Date(`${year}-12-31`); // Ngày kết thúc của khoảng
+    let result = await KQXS.aggregate([
+      {
+        $addFields: {
+          dayPrizeDate: {
+            $dateFromString: {
+              dateString: '$dayPrize',
+              format: '%d-%m-%Y'
+            }
+          }
+        }
+      },
+      {
+        $match: {
+          prizeId: 1,
+          region: 1,
+          dayPrizeDate: {
+            $gte: startDate,
+            $lte: endDate
+          },
+        }
+      },
+      {
+        $group: {
+          _id: {
+            dayPrize: '$dayPrizeDate'
+          },
+          firstEntry: { $first: '$$ROOT' }
+        }
+      },
+      {
+        $replaceRoot: {
+          newRoot: '$firstEntry'
+        }
+      },    
+      {
+        $sort: { dayPrizeDate: 1}
+      }
+    ])
+
+    const data = []
+    if(result && result.length > 0) {
+      let choose = null;
+      for (let i = 1; i <= 12; i++) {
+        for (let y = 1; y <= 31; y++) {          
+            if(result.length <= 0){
+              data.push(null);
+              continue;
+            }
+            const m = i < 10 ? "0" + i: i;
+            const d = y < 10 ? "0" + y: y;
+            const date = d + "-" + m + "-" + year;
+            if(y >= 28){
+               if(!moment(date, "DD-MM-YYYY").isValid()) break;
+            }
+    
+            if(choose){
+              if(choose.dayPrize == date){
+                data.push(choose);
+                choose = null;
+              }else {
+                  data.push(null);
+              }
+            }else {
+              choose = result.shift();
+              if(choose.dayPrize == date){
+                data.push(choose);
+                choose = null;
+              }else {
+                data.push(null);
+              }
+            }
+        }
+      }
+    }
+
+    return res.json(data);
+  } catch (error) {
+    return res.json({message: error.message});
+  }
+}
+
+exports.getSpecialStatisticsGan = async (req, res) => {
+  try {
+      const result = await KQXS.aggregate([
+        {
+          $addFields: {
+            dayPrizeDate: {
+              $dateFromString: {
+                dateString: '$dayPrize',
+                format: '%d-%m-%Y'
+              }
+            }
+          }
+        },
+        {
+          $match: {
+            region: 1,
+            prizeId: 1,
+          }
+        },
+        {
+          $sort: {
+            loto: 1,
+            dateFromString: 1,
+          }
+        }
+      ])
+    return res.json(result);
   } catch (error) {
     return res.json({message: error.message});
   }

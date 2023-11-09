@@ -40,5 +40,7 @@ router.get("/getTopByProvince/:provinceId", kqxsController.getTopByProvince);
 router.post("/checkKqxs", kqxsControllerV2.checkKqxs);
 router.get("/getResultTomorrow", kqxsController.getResultTomorrow);
 router.get("/getSpecialPrizeStatistics", kqxsController.getSpecialPrizeStatistics);
+router.get("/getSpecialPrizeStatisticsDayOfWeek", kqxsController.getSpecialPrizeStatisticsDayOfWeek);
+router.get("/getSpecialStatisticsGan", kqxsController.getSpecialStatisticsGan);
 
 module.exports = router;
