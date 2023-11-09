@@ -43,7 +43,6 @@ const {
 const path = require("path");
 const cron = require("node-cron");
 const { autoCreatePost } = require("./controllers/post");
-const { crawlDataFrequencyOfOccurrenceOfTwoNumbers, crawlDataLotDetailCycle } = require("./stores/statisticsOfNorthernLot");
 
 app.use(morgan("dev"));
 app.use(cors(corsOptions));

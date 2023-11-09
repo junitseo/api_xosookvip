@@ -4,8 +4,12 @@ const NorthernLotteryStatistic = require("../models/northernLotteryStatistic");
 const StatisticsOnSiblingPairs = require("../models/statisticsOnSiblingPairs");
 const FrequencyOfOccurrenceOfTwoNumber = require("../models/frequencyOfOccurrenceOfTwoNumber");
 const LotDetailCycle = require("../models/lotDetailCycle");
+const LotteryStatistic = require("../models/lotteryStatistic");
+const StatisticsOfBatchBeatFrequency = require("../models/statisticsOfBatchBeatFrequency");
+const CellularLotoFrequencyStatistics = require("../models/cellularLotoFrequencyStatistics");
+const GridStyleLotoFrequencyStatistic = require("../models/gridStyleLotoFrequencyStatistic");
 const { dashLogger } = require('../logger');
-const { crawlDataHeadAndEndLotteryStatistics, crawlDataStatisticsOfLotteryRhythmFrequency, crawlDataNorthernLotteryStatistics, crawlDataStatisticsOnSiblingPairs, crawlDataFrequencyOfOccurrenceOfTwoNumbers, crawlDataLotDetailCycle } = require("../stores/statisticsOfNorthernLot");
+const { crawlDataHeadAndEndLotteryStatistics, crawlDataStatisticsOfLotteryRhythmFrequency, crawlDataNorthernLotteryStatistics, crawlDataStatisticsOnSiblingPairs, crawlDataFrequencyOfOccurrenceOfTwoNumbers, crawlDataLotDetailCycle, crawlDataLotteryStatistic, crawlDataStatisticsOfBatchBeatFrequency, crawlDataCellularLotoFrequencyStatistics, crawlDataGridStyleLotoFrequencyStatistics } = require("../stores/statisticsOfNorthernLot");
 
 exports.getHeadAndEndLotteryStatistic = (req, res) => {
     let date = req.params.date ? req.params.date.replaceAll("-", "/") : null;
@@ -191,6 +195,148 @@ exports.getLotDetailCycles = (req, res) => {
                         day_to: day_to
                     }
                     crawlDataLotDetailCycle(prams, res);
+                }
+            }
+        });
+    } catch (err) {
+        dashLogger.error(`Error : ${err},Request : ${req?.originalUrl}`);
+        return res.status(400).json({
+            message: err.message
+        })
+    }
+}
+
+exports.getLotteryStatistic = (req, res) => {
+    let amplitude = req.query.amplitude ? req.query.amplitude : null;
+    let date_start = req.query.date_start ? req.query.date_start.replaceAll("-", "/") : null;
+    let date_end = req.query.date_end ? req.query.date_end.replaceAll("-", "/") : null;
+
+    try {
+        LotteryStatistic.findOne({
+            amplitude: amplitude,
+            date_start: date_start,
+            date_end: date_end
+        }).exec(async (err, data) => {
+            if (err) {
+                return res.status(400).json({ message: err.message })
+            } else {
+                if (data) {
+                    return res.status(200).json(data);
+                } else {
+                    const prams = {
+                        amplitude: amplitude,
+                        date_start: date_start,
+                        date_end: date_end
+                    }
+                    crawlDataLotteryStatistic(prams, res);
+                }
+            }
+        });
+    } catch (err) {
+        dashLogger.error(`Error : ${err},Request : ${req?.originalUrl}`);
+        return res.status(400).json({
+            message: err.message
+        })
+    }
+}
+
+exports.getStatisticsOfBatchBeatFrequency = (req, res) => {
+    let number_server = req.query.number_server ? req.query.number_server : null;
+    let day_of_week = req.query.day_of_week ? req.query.day_of_week : null;
+    let date_start = req.query.date_start ? req.query.date_start.replaceAll("-", "/") : null;
+    let date_end = req.query.date_end ? req.query.date_end.replaceAll("-", "/") : null;
+
+    try {
+        StatisticsOfBatchBeatFrequency.findOne({
+            number_server: number_server,
+            day_of_week: day_of_week,
+            date_start: date_start,
+            date_end: date_end
+        }).exec(async (err, data) => {
+            if (err) {
+                return res.status(400).json({ message: err.message })
+            } else {
+                if (data) {
+                    return res.status(200).json(data);
+                } else {
+                    const prams = {
+                        number_server: number_server,
+                        day_of_week: day_of_week,
+                        date_start: date_start,
+                        date_end: date_end
+                    }
+                    crawlDataStatisticsOfBatchBeatFrequency(prams, res);
+                }
+            }
+        });
+    } catch (err) {
+        dashLogger.error(`Error : ${err},Request : ${req?.originalUrl}`);
+        return res.status(400).json({
+            message: err.message
+        })
+    }
+}
+
+exports.getCellularLotoFrequencyStatistics = (req, res) => { 
+    let kieu_soi = req.query.kieu_soi ? req.query.kieu_soi : null;
+    let tp = req.query.tp ? req.query.tp : null;
+    let day_from = req.query.day_from ? req.query.day_from.replaceAll("-", "/") : null;
+    let day_to = req.query.day_to ? req.query.day_to.replaceAll("-", "/") : null;
+
+    try {
+        CellularLotoFrequencyStatistics.findOne({
+            kieu_soi: kieu_soi,
+            tp: tp,
+            day_from: day_from,
+            day_to: day_to
+        }).exec(async (err, data) => {
+            if (err) {
+                return res.status(400).json({ message: err.message })
+            } else {
+                if (data) {
+                    return res.status(200).json(data);
+                } else {
+                    const prams = {
+                        kieu_soi: kieu_soi,
+                        tp: tp,
+                        day_from: day_from,
+                        day_to: day_to
+                    }
+                    crawlDataCellularLotoFrequencyStatistics(prams, res);
+                }
+            }
+        });
+    } catch (err) {
+        dashLogger.error(`Error : ${err},Request : ${req?.originalUrl}`);
+        return res.status(400).json({
+            message: err.message
+        })
+    }
+}
+
+exports.getGridStyleLotoFrequencyStatistic = (req, res) => { 
+    let tp = req.query.tp ? req.query.tp : null;
+    let day_from = req.query.day_from ? req.query.day_from.replaceAll("-", "/") : null;
+    let day_to = req.query.day_to ? req.query.day_to.replaceAll("-", "/") : null;
+
+    try {
+        GridStyleLotoFrequencyStatistic.findOne({
+            tp: tp,
+            day_from: day_from,
+            day_to: day_to
+        }).exec(async (err, data) => {
+            if (err) {
+                return res.status(400).json({ message: err.message })
+            } else {
+                if (data) {
+                    return res.status(200).json(data);
+                } else {
+                    const prams = {
+                        tp: tp,
+                        day_from: day_from,
+                        day_to: day_to
+                    }
+                    crawlDataGridStyleLotoFrequencyStatistics(prams, res);
                 }
             }
         });

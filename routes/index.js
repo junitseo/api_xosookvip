@@ -23,6 +23,7 @@ const informationRouter = require("./information");
 const seoRouter = require("./seo.router");
 const perpetualCalendarRouter = require("./perpetualCalendar");
 const statisticsOfNorthernLotRouter = require("./statisticsOfNorthernLot");
+const NorthernlotterypredictionRouter = require("./northernlotteryprediction");
 
 module.exports = (app) => {
   app.use("/api/v1/categories", categoriesRouter);
@@ -50,4 +51,5 @@ module.exports = (app) => {
   app.use("/api/v1/seo", seoRouter);
   app.use("/api/v1/perpetualCalendar", perpetualCalendarRouter);
   app.use("/api/v1/statisticsOfNorthernLot", statisticsOfNorthernLotRouter);
+  app.use("/api/v1/northernlotteryprediction", NorthernlotterypredictionRouter);
 };
