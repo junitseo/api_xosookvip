@@ -2531,6 +2531,22 @@ exports.getSpecialPrizeStatisticsDayOfWeek = async (req, res) => {
 }
 
 exports.getSpecialStatisticsGan = async (req, res) => {
+  const date = req.query.date;
+  let now = moment().format("YYYY-MM-DD");
+  if(date){
+    if(moment(date).isValid()){
+      now = moment(date, "DD-MM-YYYY").format("YYYY-MM-DD");
+    }
+  }
+  let sort = {};
+  const type = req.query.type;
+  if(type == 2){
+    sort.firstNumber = 1
+  }else if(type == 3){
+    sort.lastNumber = 1
+  }else {
+    sort.loto = 1
+  }
   try {
       const result = await KQXS.aggregate([
         {
@@ -2547,17 +2563,184 @@ exports.getSpecialStatisticsGan = async (req, res) => {
           $match: {
             region: 1,
             prizeId: 1,
+            dayPrizeDate: {
+              $lte: new Date(now)
+            }
           }
         },
         {
-          $sort: {
-            loto: 1,
-            dateFromString: 1,
-          }
+          $sort: sort
+        },
+        {
+          $sort: { dayPrizeDate: 1}
         }
       ])
+      
     return res.json(result);
   } catch (error) {
     return res.json({message: error.message});
   }
+}
+
+
+exports.getSpecialPrizeStatisticsDayOfWeek2 = async (req, res) => {
+  try {
+    let startDate = ""
+    let endDate = ""
+    if(req.query.startDate && req.query.endDate) {
+      startDate = new Date(moment(req.query.startDate, "DD-MM-YYYY").format("YYYY-MM-DD"));
+      endDate = new Date(moment(req.query.endDate, "DD-MM-YYYY").format("YYYY-MM-DD"));
+    }
+    let result = await KQXS.aggregate([
+      {
+        $addFields: {
+          dayPrizeDate: {
+            $dateFromString: {
+              dateString: '$dayPrize',
+              format: '%d-%m-%Y'
+            }
+          }
+        }
+      },
+      {
+        $match: {
+          prizeId: 1,
+          region: 1,
+          dayPrizeDate: {
+            $gte: startDate,
+            $lte: endDate
+          },
+        }
+      },
+      {
+        $group: {
+          _id: {
+            dayPrize: '$dayPrizeDate'
+          },
+          firstEntry: { $first: '$$ROOT' }
+        }
+      },
+      {
+        $replaceRoot: {
+          newRoot: '$firstEntry'
+        }
+      },    
+      {
+        $sort: { dayPrizeDate: 1}
+      }
+    ])
+    const dataDate = []
+    while (startDate <= endDate) {
+      dataDate.push(moment(startDate).format("DD-MM-YYYY"))
+      startDate.setDate(startDate.getDate() + 1);
+    }
+    const data = []
+    let choose = null;
+    dataDate.forEach(item  => {
+      
+      if(choose){
+        // console.log(choose.dayPrize, item, choose.dayPrize == item)
+        if(choose?.dayPrize == item){
+          data.push(choose);
+          choose = null;
+        }else {
+          data.push(null);
+        }
+      }else {
+        choose = result.shift();
+        if(choose?.dayPrize == item){
+          data.push(choose);
+          choose = null;
+        }else {
+          data.push(null);
+        }
+      }
+    })
+    return res.json(data);
+  } catch (error) {
+    return res.json({message: error.message});
+  }
+}
+
+exports.getStatisticFrequency = async (req, res) => {
+  try {
+    let startDate = ""
+    let endDate = ""
+    if(req.query.startDate && req.query.endDate) {
+      startDate = new Date(moment(req.query.startDate, "DD-MM-YYYY").format("YYYY-MM-DD"));
+      endDate = new Date(moment(req.query.endDate, "DD-MM-YYYY").format("YYYY-MM-DD"));
+    }
+    const arrayOfDate = [];
+    while (startDate <= endDate) {
+      arrayOfDate.push(moment(startDate).format("DD-MM-YYYY"))
+      startDate.setDate(startDate.getDate() + 1);
+    }
+    let query = {};
+    const returnResult = [];
+    for (let i = 0; i <= 99; i++) {
+      let lotoNumber = "";
+      if (i < 10) {
+        lotoNumber = `0${i}`;
+      } else {
+        lotoNumber = `${i}`;
+      }
+      query = {
+        ...query,
+        dayPrize: arrayOfDate,
+        provinceId: 1,
+        loto: lotoNumber,
+      };
+      const result = await KQXS.find(query);
+      returnResult.push(result);
+    }
+    return res
+      .status(200)
+      .json({ statistic: returnResult, arrayDate: arrayOfDate });
+  } catch (error) {
+    console.log(error);
+    return res.status(500);
+  }
+};
+
+exports.getStatisticRecentCycle = async (req, res) => {
+  try {
+    const endDate = new Date(`2023-12-31`);
+  let result = await KQXS.aggregate([
+    {
+      $addFields: {
+        dayPrizeDate: {
+          $dateFromString: {
+            dateString: '$dayPrize',
+            format: '%d-%m-%Y'
+          }
+        }
+      }
+    },
+    {
+      $match: {
+        prizeId: 1,
+        region: 1,
+        dayPrizeDate: {
+          $lte: endDate
+        },
+      }
+    },
+    {
+      $group: {
+        _id: "$firstNumber",
+        maxDate: { $max: { $toDate: "$dayPrize" } },
+        data: { $first: "$$ROOT" }
+      }
+    },  
+    {
+      $sort: { _id: 1}
+    }
+  ])
+
+  return res.json(result);
+  } catch (error) {
+    return res.json({message: error.message});
+  }
+  
+
 }
