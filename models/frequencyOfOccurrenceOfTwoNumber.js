@@ -22,16 +22,41 @@ const frequencyOfOccurrenceOfTwoNumberSchema = new mongoose.Schema({
     data_date: {
         type: String,
     },
-    content_one: {
+
+    content_one_item_one: {
         type: String,
     },
-    content_tow: {
+    content_one_item_tow: {
         type: String,
     },
-    content_three: {
+    content_one_item_three: {
         type: String,
     },
-    content_four: {
+    content_one_item_four: {
+        type: String,
+    },
+
+    content_tow_item_one: {
+        type: String,
+    },
+    content_tow_item_tow: {
+        type: String,
+    },
+
+    content_three_item_one: {
+        type: String,
+    },
+    content_three_item_tow: {
+        type: String,
+    },
+
+    content_four_item_one: {
+        type: String,
+    },
+    content_four_item_tow: {
+        type: String,
+    },
+    content_four_item_three: {
         type: String,
     },
 });

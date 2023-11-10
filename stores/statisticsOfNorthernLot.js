@@ -370,7 +370,8 @@ async function crawlDataStatisticsOnSiblingPairs(params, res) {
             for (let i = 0; i < content_data.length; i++) {
                 if (content_data.eq(i).find("div").eq(0).text() && content_data.eq(i).find("div").eq(1).text()) {
                     let const_item = {
-                        number: content_data.eq(i).find("div").eq(0).text(),
+                        number_one: content_data.eq(i).find("div").eq(0).find("font").eq(0).text(),
+                        number_tow: content_data.eq(i).find("div").eq(0).find("font").eq(1).text(),
                         date: content_data.eq(i).find("div").eq(1).text()
                     }
                     content.push(const_item);
@@ -379,7 +380,7 @@ async function crawlDataStatisticsOnSiblingPairs(params, res) {
             let statisticsOnSiblingPairs = new StatisticsOnSiblingPairs();
             statisticsOnSiblingPairs.date = params.date;
             statisticsOnSiblingPairs.string_number = params.string_number;
-            statisticsOnSiblingPairs.title = title_data;
+            statisticsOnSiblingPairs.title_data = title_data;
             statisticsOnSiblingPairs.data = content;
 
             statisticsOnSiblingPairs.save((err, newStatisticsOnSiblingPairs) => {
@@ -439,23 +440,51 @@ async function crawlDataFrequencyOfOccurrenceOfTwoNumbers(params, res) {
             let times = data.find(".khungnd").eq(0).find("div").eq(0).find("div").eq(0).find("font").eq(1).text();
             let data_date = data.find("#ngay_list_together").eq(0).text();
 
-            let content_one = data.find(".khungnd").eq(0).find("div").eq(5).find("div").eq(0).text();
-            let content_tow = data.find(".khungnd").eq(0).find("div").eq(5).find("div").eq(1).text();
-            let content_three = data.find(".khungnd").eq(0).find("div").eq(5).find("div").eq(2).text();
-            let content_four = data.find(".khungnd").eq(0).find("div").eq(5).find("div").eq(3).text();
+            let content_one = data.find(".khungnd").eq(0).find("div").eq(5).find("div").eq(0);
+            let  content_one_item_one = content_one.find("font").eq(0).text();
+            let  content_one_item_tow = content_one.find("font").eq(1).text();
+            let  content_one_item_three = content_one.find("font").eq(2).text();
+            let  content_one_item_four = content_one.find("font").eq(3).text();
+
+
+            let content_tow = data.find(".khungnd").eq(0).find("div").eq(5).find("div").eq(1);
+            let  content_tow_item_one = content_tow.find("font").eq(0).text();
+            let  content_tow_item_tow = content_tow.find("font").eq(1).text();
+
+            let content_three = data.find(".khungnd").eq(0).find("div").eq(5).find("div").eq(2);
+            let  content_three_item_one = content_three.find("font").eq(0).text();
+            let  content_three_item_tow = content_three.find("font").eq(1).text();
+
+            let content_four = data.find(".khungnd").eq(0).find("div").eq(5).find("div").eq(3);
+            let  content_four_item_one = content_four.find("font").eq(0).text();
+            let  content_four_item_tow = content_four.find("font").eq(1).text();
+            let  content_four_item_three = content_four.find("font").eq(2).text();
 
             let frequencyOfOccurrenceOfTwoNumber = new FrequencyOfOccurrenceOfTwoNumber();
             frequencyOfOccurrenceOfTwoNumber.number_one = params.number_one;
             frequencyOfOccurrenceOfTwoNumber.number_tow = params.number_tow;
             frequencyOfOccurrenceOfTwoNumber.day_from = params.day_from;
             frequencyOfOccurrenceOfTwoNumber.day_to = params.day_to;
+
             frequencyOfOccurrenceOfTwoNumber.pair_of_number = pair_of_number;
             frequencyOfOccurrenceOfTwoNumber.times = times;
             frequencyOfOccurrenceOfTwoNumber.data_date = data_date;
-            frequencyOfOccurrenceOfTwoNumber.content_one = content_one;
-            frequencyOfOccurrenceOfTwoNumber.content_tow = content_tow;
-            frequencyOfOccurrenceOfTwoNumber.content_three = content_three;
-            frequencyOfOccurrenceOfTwoNumber.content_four = content_four;
+
+            frequencyOfOccurrenceOfTwoNumber.content_one_item_one = content_one_item_one;
+            frequencyOfOccurrenceOfTwoNumber.content_one_item_tow = content_one_item_tow;
+            frequencyOfOccurrenceOfTwoNumber.content_one_item_three = content_one_item_three;
+            frequencyOfOccurrenceOfTwoNumber.content_one_item_four = content_one_item_four;
+
+            frequencyOfOccurrenceOfTwoNumber.content_tow_item_one = content_tow_item_one;
+            frequencyOfOccurrenceOfTwoNumber.content_tow_item_tow = content_tow_item_tow;
+
+            frequencyOfOccurrenceOfTwoNumber.content_three_item_one = content_three_item_one;
+            frequencyOfOccurrenceOfTwoNumber.content_three_item_tow = content_three_item_tow;
+         
+
+            frequencyOfOccurrenceOfTwoNumber.content_four_item_one = content_four_item_one;
+            frequencyOfOccurrenceOfTwoNumber.content_four_item_tow = content_four_item_tow;
+            frequencyOfOccurrenceOfTwoNumber.content_four_item_three = content_four_item_three;
 
             frequencyOfOccurrenceOfTwoNumber.save((err, newFrequencyOfOccurrenceOfTwoNumber) => {
                 if (err) {
@@ -513,10 +542,10 @@ async function crawlDataLotDetailCycle(params, res) {
             let times = data.find(".khungnd").eq(0).find("div").eq(0).find("div").eq(0).find("font").eq(1).text();
             let data_date = data.find(".khungnd").eq(0).find("div").eq(2).text();
 
-            let content_one = data.find(".khungnd").eq(0).find("div").eq(3).find("div").eq(0).text();
-            let content_tow = data.find(".khungnd").eq(0).find("div").eq(3).find("div").eq(1).text();
-            let content_three = data.find(".khungnd").eq(0).find("div").eq(3).find("div").eq(2).text();
-            let content_four = data.find(".khungnd").eq(0).find("div").eq(3).find("div").eq(3).text();
+            let content_one = data.find(".khungnd").eq(0).find("div").eq(3).find("div").eq(0).find("font").eq(0).text();
+            let content_tow = data.find(".khungnd").eq(0).find("div").eq(3).find("div").eq(1).find("font").eq(0).text();
+            let content_three = data.find(".khungnd").eq(0).find("div").eq(3).find("div").eq(2).find("font").eq(0).text();
+            let content_four = data.find(".khungnd").eq(0).find("div").eq(3).find("div").eq(3).find("font").eq(0).text();
 
             let data_LotDetailCycle = data.find(".khungnd").eq(0).find("div").eq(11).find("div").eq(1).find("span");
             let detail_LotDetailCycle = [];
@@ -547,6 +576,7 @@ async function crawlDataLotDetailCycle(params, res) {
             lotDetailCycle.times = times;
             lotDetailCycle.data_date = data_date;
             lotDetailCycle.detail_lotDetailCycle = detail_LotDetailCycle;
+
             lotDetailCycle.content_one = content_one;
             lotDetailCycle.content_tow = content_tow;
             lotDetailCycle.content_three = content_three;
