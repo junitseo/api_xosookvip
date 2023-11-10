@@ -876,7 +876,7 @@ async function crawlDataCheckBridgeHistory(params, res) {
 
             const location_total = data_hitory.eq(2).find("font").eq(0).text();
 
-            const list_hitory = data_hitory.eq(4).text().split("=================================================");
+            const list_hitory = data_hitory.eq(4).text().replaceAll("Xem cầu", "").split("=================================================");
 
             let checkBridgeHistory = new CheckBridgeHistory();
             checkBridgeHistory.index_i = params.index_i;
