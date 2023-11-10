@@ -42,5 +42,8 @@ router.get("/getResultTomorrow", kqxsController.getResultTomorrow);
 router.get("/getSpecialPrizeStatistics", kqxsController.getSpecialPrizeStatistics);
 router.get("/getSpecialPrizeStatisticsDayOfWeek", kqxsController.getSpecialPrizeStatisticsDayOfWeek);
 router.get("/getSpecialStatisticsGan", kqxsController.getSpecialStatisticsGan);
+router.get("/getSpecialPrizeStatisticsDayOfWeek2", kqxsController.getSpecialPrizeStatisticsDayOfWeek2);
+router.get("/getStatisticFrequency", kqxsController.getStatisticFrequency);
+router.get("/getStatisticRecentCycle", kqxsController.getStatisticRecentCycle);
 
 module.exports = router;
