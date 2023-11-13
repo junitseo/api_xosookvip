@@ -2334,7 +2334,9 @@ exports.getResultTomorrow = async (req, res) => {
       if(!item._id.equals(result._id)){
         const tomorrow = moment(item.dayPrize, 'DD-MM-YYYY').add(1, 'days').format("DD-MM-YYYY")
         const d = await KQXS.findOne({dayPrize: tomorrow, prizeId: 1, region: 1}).lean();
-        data.push({current: item, tomorrow: d })
+        if(d){
+          data.push({current: item, tomorrow: d })
+        }
       }
     }
     const dayTomorrow = moment(now, "DD-MM-YYYY").add(1, 'days').format("DD-MM");
@@ -2675,7 +2677,10 @@ exports.getStatisticFrequency = async (req, res) => {
       arrayOfDate.push(moment(startDate).format("DD-MM-YYYY"))
       startDate.setDate(startDate.getDate() + 1);
     }
-    let query = {};
+    let query = {prizeId: 1};
+    if(req.query.prizeId){
+      query.prizeId = req.query.prizeId
+    }
     const returnResult = [];
     for (let i = 0; i <= 99; i++) {
       let lotoNumber = "";
@@ -2743,4 +2748,142 @@ exports.getStatisticRecentCycle = async (req, res) => {
   }
   
 
+}
+
+exports.getStatisticTwoNumber = async (req, res) => {
+  try {
+    let startDate = ""
+    let endDate = ""
+    let loto = "00"
+    if(req.query.startDate && req.query.endDate) {
+      startDate = new Date(moment(req.query.startDate, "DD-MM-YYYY").format("YYYY-MM-DD"));
+      endDate = new Date(moment(req.query.endDate, "DD-MM-YYYY").format("YYYY-MM-DD"));
+    }
+    if(req.query.loto){
+      loto = req.query.loto
+    }
+    let result = await KQXS.aggregate([
+      {
+        $addFields: {
+          dayPrizeDate: {
+            $dateFromString: {
+              dateString: '$dayPrize',
+              format: '%d-%m-%Y'
+            }
+          }
+        }
+      },
+      {
+        $match: {
+          region: 1,
+          loto,
+          dayPrizeDate: {
+            $gte: startDate,
+            $lte: endDate
+          },
+        }
+      },  
+      {
+        $sort: { dayPrizeDate: 1}
+      }
+    ])
+    return res.json(result);
+  } catch (error) {
+    return res.json({message: error.message});
+  }
+  
+}
+exports.getStatisticList = async (req, res) => {
+  try {
+    let startDate = ""
+    let endDate = ""
+    let lotos = [];
+    if(req.query.startDate && req.query.endDate) {
+      startDate = new Date(moment(req.query.startDate, "DD-MM-YYYY").format("YYYY-MM-DD"));
+      endDate = new Date(moment(req.query.endDate, "DD-MM-YYYY").format("YYYY-MM-DD"));
+    }
+    if(req.query.lotos){
+      lotos = req.query.lotos.split(",").map(text => text);
+    }
+    let result = await KQXS.aggregate([
+      {
+        $addFields: {
+          dayPrizeDate: {
+            $dateFromString: {
+              dateString: '$dayPrize',
+              format: '%d-%m-%Y'
+            }
+          }
+        }
+      },
+      {
+        $match: {
+          region: 1,
+          prizeId: 1,
+          loto: {
+            $in: lotos
+          },
+          dayPrizeDate: {
+            $gte: startDate,
+            $lte: endDate
+          },
+        }
+      },  
+      {
+        $sort: { dayPrizeDate: 1}
+      }
+    ])
+    return res.json(result);
+  } catch (error) {
+    return res.json({message: error.message});
+  }
+  
+}
+
+exports.getStatisticTwoNumberByDayOfWeek = async (req, res) => {
+  try {
+    let startDate = ""
+    let endDate = ""
+    let daysOfWeek = [1, 2, 3, 4, 5, 6, 7]
+    if(req.query.startDate && req.query.endDate) {
+      startDate = new Date(moment(req.query.startDate, "DD-MM-YYYY").format("YYYY-MM-DD"));
+      endDate = new Date(moment(req.query.endDate, "DD-MM-YYYY").format("YYYY-MM-DD"));
+    }
+    if(req.query.daysOfWeek){
+      daysOfWeek = req.query.daysOfWeek.split(",").map(num => parseInt(num));
+    }
+    
+    let result = await KQXS.aggregate([
+      {
+        $addFields: {
+          dayPrizeDate: {
+            $dateFromString: {
+              dateString: '$dayPrize',
+              format: '%d-%m-%Y'
+            }
+          }
+        }
+      },
+      {
+        $match: {
+          region: 1,
+          prizeId: 1,
+          dayPrizeDate: {
+            $gte: startDate,
+            $lte: endDate
+          },
+          $expr: {
+            $in:  [{ $dayOfWeek: "$dayPrizeDate" }, daysOfWeek]
+          }
+        }
+      },  
+      {
+        $sort: { dayPrizeDate: 1}
+      }
+    ])
+    return res.json(result);
+  } catch (error) {
+    return res.json({message: error.message});
+  }
+  
 }
