@@ -2314,7 +2314,7 @@ exports.getResultTomorrow = async (req, res) => {
     const date = req.query.date;
     let now = moment().format("DD-MM-YYYY");
     if(date){
-      if(moment(date) <= moment(now)){
+      if(moment(date, "DD-MM-YYYY") <= moment(now, "DD-MM-YYYY")){
         now = date;
       }
     }
