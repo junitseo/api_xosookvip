@@ -2328,17 +2328,17 @@ exports.getResultTomorrow = async (req, res) => {
       return res.json({success: false, message: "Có lỗi xảy ra"});
     }
     // find all item have 2 number end same
-    const data = []
     const allSameLoto = await KQXS.find({loto: result.loto, prizeId: 1, region: 1});
-    for await (const item of allSameLoto) {
-      if(!item._id.equals(result._id)){
-        const tomorrow = moment(item.dayPrize, 'DD-MM-YYYY').add(1, 'days').format("DD-MM-YYYY")
-        const d = await KQXS.findOne({dayPrize: tomorrow, prizeId: 1, region: 1}).lean();
-        if(d){
-          data.push({current: item, tomorrow: d })
+    const dataPromises = allSameLoto.map(async (item) => {
+      if (!item._id.equals(result._id)) {
+        const tomorrow = moment(item.dayPrize, 'DD-MM-YYYY').add(1, 'days').format("DD-MM-YYYY");
+        const d = await KQXS.findOne({ dayPrize: tomorrow, prizeId: 1, region: 1 }).lean();
+        if (d) {
+          return { current: item, tomorrow: d };
         }
       }
-    }
+    });
+    const data = (await Promise.all(dataPromises)).filter(i => i);
     const dayTomorrow = moment(now, "DD-MM-YYYY").add(1, 'days').format("DD-MM");
     let dataYear = await KQXS.aggregate([
       {
@@ -2668,35 +2668,71 @@ exports.getStatisticFrequency = async (req, res) => {
   try {
     let startDate = ""
     let endDate = ""
+    let prizeId = 1
     if(req.query.startDate && req.query.endDate) {
-      startDate = new Date(moment(req.query.startDate, "DD-MM-YYYY").format("YYYY-MM-DD"));
-      endDate = new Date(moment(req.query.endDate, "DD-MM-YYYY").format("YYYY-MM-DD"));
+      startDate = new Date(moment(req.query.startDate, "DD-MM-YYYY"))
+      endDate = new Date(moment(req.query.endDate, "DD-MM-YYYY")) //.format("YYYY-MM-DD"));
     }
     const arrayOfDate = [];
-    while (startDate <= endDate) {
-      arrayOfDate.push(moment(startDate).format("DD-MM-YYYY"))
-      startDate.setDate(startDate.getDate() + 1);
+    
+    const s = new Date(moment(req.query.startDate, "DD-MM-YYYY").format("YYYY-MM-DD"))
+    const e = new Date(moment(req.query.endDate, "DD-MM-YYYY").format("YYYY-MM-DD"))
+    while (s <= e) {
+      arrayOfDate.push(moment(s).format("DD-MM-YYYY"))
+      s.setDate(s.getDate() + 1);
     }
-    let query = {prizeId: 1};
     if(req.query.prizeId){
-      query.prizeId = req.query.prizeId
+      prizeId = req.query.prizeId
     }
     const returnResult = [];
-    for (let i = 0; i <= 99; i++) {
-      let lotoNumber = "";
-      if (i < 10) {
-        lotoNumber = `0${i}`;
-      } else {
-        lotoNumber = `${i}`;
+    let result = await KQXS.aggregate([
+      {
+        $addFields: {
+          dayPrizeDate: {
+            $dateFromString: {
+              dateString: '$dayPrize',
+              format: '%d-%m-%Y'
+            }
+          }
+        }
+      },
+      {
+        $match: {
+          region: 1,
+          // prizeId,
+          dayPrizeDate: {
+            $gte: startDate,
+            $lte: endDate
+          },
+        }
+      },
+      {
+        $group: {
+          _id: "$loto",
+          data: { $addToSet: "$$ROOT" }
+        }
+      },
+      {
+        $sort: {
+          _id: 1, 
+        }
       }
-      query = {
-        ...query,
-        dayPrize: arrayOfDate,
-        provinceId: 1,
-        loto: lotoNumber,
-      };
-      const result = await KQXS.find(query);
-      returnResult.push(result);
+    ])
+    for (let i = 0; i <= 99; i++) {
+      if(!result[0]){
+         returnResult.push([]);
+         return;
+      }
+      const itemData = parseInt(result[0]._id) == i;
+      if(itemData){
+        returnResult.push(result[0].data);
+        // returnResult.push(result[0].data.filter(i => i.prizeId == prizeId));
+
+        result.shift();
+      }else {
+        returnResult.push([]);
+      }
+    
     }
     return res
       .status(200)
