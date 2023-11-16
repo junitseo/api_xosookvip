@@ -8,6 +8,7 @@ const addingZeroToDate = require("../helpers/addingZeroToDate");
 const reverseDate = require("../helpers/reverseDate");
 const isNumeric = require("../helpers/isNumeric");
 const { crawlDataMNV2, crawlDataMTV2, crawlDataMBV2 } = require("./kqxsv2");
+const redisClient = require("../helpers/redisClient");
 
 exports.getAllSpecialLotoMb = async (req, res) => {
   const arrayDate = [];
@@ -2310,6 +2311,7 @@ exports.getResultTanSuat = async (req, res) => {
   }
 };
 exports.getResultTomorrow = async (req, res) => {
+  
   try {
     const date = req.query.date;
     let now = moment().format("DD-MM-YYYY");
@@ -2326,6 +2328,14 @@ exports.getResultTomorrow = async (req, res) => {
     }
     if(!result) {
       return res.json({success: false, message: "Có lỗi xảy ra"});
+    }
+    let key = 'getResultTomorrow';
+    if (now) {
+      key += `-date-${now?.toString()}`;
+    }
+    const resValue = await redisClient.get(key);
+    if (resValue) {
+      return res.json(JSON.parse(resValue));
     }
     // find all item have 2 number end same
     const allSameLoto = await KQXS.find({loto: result.loto, prizeId: 1, region: 1});
@@ -2351,8 +2361,11 @@ exports.getResultTomorrow = async (req, res) => {
         }
       },    
     ])
+    
+    if (result.isRunning == "false"){
+      await redisClient.set(key, JSON.stringify({current: result, data, dataYear}));
+    }
     return res.json({current: result, data, dataYear});
-
   } catch (error) {
     return res.json({message: error.message});
   }
@@ -2549,6 +2562,17 @@ exports.getSpecialStatisticsGan = async (req, res) => {
   }else {
     sort.loto = 1
   }
+  let key = 'getSpecialStatisticsGan';
+  if (now) {
+    key += `-date-${now}`;
+  }
+  if (type) {
+    key += `-type-${type}`;
+  }
+  const resValue = await redisClient.get(key);
+  if (resValue) {
+    return res.json(JSON.parse(resValue));
+  }
   try {
       const result = await KQXS.aggregate([
         {
@@ -2577,7 +2601,9 @@ exports.getSpecialStatisticsGan = async (req, res) => {
           $sort: { dayPrizeDate: 1}
         }
       ])
-      
+    if(new Date(now) < Date.now()){
+      await redisClient.set(key, JSON.stringify(result))
+    }
     return res.json(result);
   } catch (error) {
     return res.json({message: error.message});
@@ -2668,11 +2694,25 @@ exports.getStatisticFrequency = async (req, res) => {
   try {
     let startDate = ""
     let endDate = ""
-    let prizeId = 1
+    // let prizeId = 1
+    let key = 'getStatisticFrequency';
+    const resValue = await redisClient.get(key);
+    if (resValue) {
+      return res.json(JSON.parse(resValue));
+    }
     if(req.query.startDate && req.query.endDate) {
       startDate = new Date(moment(req.query.startDate, "DD-MM-YYYY"))
       endDate = new Date(moment(req.query.endDate, "DD-MM-YYYY")) //.format("YYYY-MM-DD"));
+
+      key += `-startDate-${req.query.startDate}`
+      key += `-endDate-${req.query.endDate}`;
+
+      const resValue = await redisClient.get(key);
+      if (resValue) {
+        return res.json(JSON.parse(resValue));
+      }
     }
+   
     const arrayOfDate = [];
     
     const s = new Date(moment(req.query.startDate, "DD-MM-YYYY").format("YYYY-MM-DD"))
@@ -2681,9 +2721,9 @@ exports.getStatisticFrequency = async (req, res) => {
       arrayOfDate.push(moment(s).format("DD-MM-YYYY"))
       s.setDate(s.getDate() + 1);
     }
-    if(req.query.prizeId){
-      prizeId = req.query.prizeId
-    }
+    // if(req.query.prizeId){
+    //   prizeId = req.query.prizeId
+    // }
     const returnResult = [];
     let result = await KQXS.aggregate([
       {
@@ -2699,7 +2739,6 @@ exports.getStatisticFrequency = async (req, res) => {
       {
         $match: {
           region: 1,
-          // prizeId,
           dayPrizeDate: {
             $gte: startDate,
             $lte: endDate
@@ -2727,13 +2766,17 @@ exports.getStatisticFrequency = async (req, res) => {
       if(itemData){
         returnResult.push(result[0].data);
         // returnResult.push(result[0].data.filter(i => i.prizeId == prizeId));
-
         result.shift();
       }else {
         returnResult.push([]);
       }
     
     }
+
+    if(endDate < Date.now()){
+      await redisClient.set(key, JSON.stringify({ statistic: returnResult, arrayDate: arrayOfDate }))
+    }
+ 
     return res
       .status(200)
       .json({ statistic: returnResult, arrayDate: arrayOfDate });
