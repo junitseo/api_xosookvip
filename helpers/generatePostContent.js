@@ -29,165 +29,36 @@ const generatePostContent = (provinceId = 1, provinceInDay = []) => {
     provinceKey = "mn";
     provinceKeyCap = "MN";
   }
+  let content = `
+  <h2 style="box-sizing: border-box; font-weight: 400; vertical-align: baseline; overflow-wrap: break-word; margin: 0px; font-size: 18px; color: rgb(29, 112, 196); font-family: Arial, sans-serif, Tahoma, Helvetica;"><strong style="box-sizing: border-box;">1. Chốt số dự đoán XS${provinceKeyCap} ${addingZeroToDate(today)}</strong></h2>
 
-  let content = `<h1 dir="ltr" style="line-height: 1.38; margin-top: 20pt; margin-bottom: 6pt;"><span style="font-size: 20pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Soi cầu XS${provinceKeyCap}  ${
+  <p style="box-sizing: border-box; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 15.4px;">Hãy cùng chuyên gia <span style="color: rgb(53, 152, 219);" data-mce-style="color: #3598db;">dự đoán XS${provinceKeyCap} ${
     date[today.getDay()]
   } ${replaceDashFromDate(
     addingZeroToDate(today)
-  )} - Dự đo&aacute;n xổ số ${province} ${replaceDashFromDate(
-    addingZeroToDate(today)
-  )} </span></h1>
-  <p dir="ltr" style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Soi cầu xổ số ${province} ${
-    date[today.getDay()]
-  } ${replaceDashFromDate(
-    addingZeroToDate(today)
-  )}  với c&aacute;c con số danh gi&aacute; được k&ecirc; khai gồm c&oacute; c&aacute;c nội dung: Giải đặc biệt, L&ocirc; xi&ecirc;n, L&ocirc; gan,... C&aacute;c kết quả được những cao thủ d&agrave;y dặn kinh nghiệm tại </span><a style="text-decoration: none;" href="https://xosoaladin.com"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #1155cc; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: underline; -webkit-text-decoration-skip: none; text-decoration-skip-ink: none; vertical-align: baseline; white-space: pre-wrap;">Xổ số ALADIN</span></a><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;"> thực hiện cho số, khả năng tr&uacute;ng thưởng được đẩy l&ecirc;n cực kỳ cao.</span></p>
-  <h2 dir="ltr" style="line-height: 1.38; margin-top: 18pt; margin-bottom: 6pt;"><span style="font-size: 16pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Đ&aacute;nh gi&aacute; lại KQXS ${province} ${replaceDashFromDate(
-    addingZeroToDate(today)
-  )}  ng&agrave;y ${date[today.getDay()]}</span></h2>
-  <p dir="ltr" style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">H&atilde;y c&ugrave;ng nh&igrave;n lại kết quả xổ số ${province} của đợt quay thưởng ${
-    date[today.getDay()]
-  } kỳ trước của 3 đ&agrave;i thuộc khu vực ${province} gồm: ${provinceInDay
-    .map((item) => provinces[item])
-    .toString()}</span></p>
-  <h2 dir="ltr" style="line-height: 1.38; margin-top: 18pt; margin-bottom: 6pt;"><span style="font-size: 16pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Ph&acirc;n t&iacute;ch kết quả dự đo&aacute;n xổ số ${province} ${replaceDashFromDate(
-    addingZeroToDate(today)
-  )} </span></h2>
-  <p dir="ltr" style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Từ kết quả xổ số ${province} trong nhiều lần ph&aacute;t thưởng trước được thống k&ecirc; theo ng&agrave;y, tuần, th&aacute;ng, năm. XOSOALADIN sẽ mang gi&uacute;p anh em t&igrave;m được c&aacute;c bộ số s&aacute;ng lạn nhất.</span></p>
-  <h3 dir="ltr" style="line-height: 1.38; margin-top: 16pt; margin-bottom: 4pt;"><span style="font-size: 13.999999999999998pt; font-family: Arial,sans-serif; color: #434343; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Ph&acirc;n t&iacute;ch KQ soi cầu đ&agrave;i Hồ Ch&iacute; Minh ${
-    date[today.getDay()]
-  } ${replaceDashFromDate(addingZeroToDate(today))}</span></h3>
-  <p dir="ltr" style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Thảo luận kết quả xổ số Hồ Ch&iacute; Minh ng&agrave;y ${replaceDashFromDate(
-    addingZeroToDate(today)
-  )}  h&ocirc;m nay sẽ gồm c&oacute; c&aacute;c nội dung: Giải đặc biệt, Giải T&aacute;m, L&ocirc; 2 số,... được c&aacute;c cao thủ ghi lại:</span></p>
+  )}</span>&nbsp;hôm nay siêu chuẩn với các kết quả dự đoán giải đặt biệt đầu đuôi, giải lô tô 2 số, lô xiên chính xác nhất.</p>
+  <p style="box-sizing: border-box; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 15.4px;">Để kết quả dự đoán được chính xác. Bạn nên tham khảo lại kết quả Xổ Số Miền Bắc các kỳ trước để có cơ sở so sánh và đưa ra quyết định chọn con số phù hợp, có cơ hội trúng giải cao nhất.</p>
 
+  <h3 style="box-sizing: border-box; font-weight: 400; vertical-align: baseline; overflow-wrap: break-word; margin: 0px; color: rgb(51, 51, 51); font-family: Arial, sans-serif, Tahoma, Helvetica;"><strong style="box-sizing: border-box;">Chốt số ${province} ngày ${addingZeroToDate(today)}</strong></h3>
 
-  ${provinceInDay.map((item) => {
-    return `<h3 dir="ltr" style="line-height: 1.38; margin-top: 16pt; margin-bottom: 4pt;"><span style="font-size: 13.999999999999998pt; font-family: Arial,sans-serif; color: #434343; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Ph&acirc;n t&iacute;ch KQ soi cầu ${
-      provinces[item]
-    } ${date[today.getDay()]} ${replaceDashFromDate(
-      addingZeroToDate(today)
-    )}</span></h3>
-    <p dir="ltr" style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Thảo luận kết quả xổ số ${
-      provinces[item]
-    } ng&agrave;y ${replaceDashFromDate(
-      addingZeroToDate(today)
-    )} h&ocirc;m nay sẽ gồm c&oacute; c&aacute;c nội dung: Giải đặc biệt, Giải T&aacute;m, L&ocirc; 2 số,... được c&aacute;c cao thủ ghi lại:</span></p>
-    <ul style="margin-top: 0; margin-bottom: 0; padding-inline-start: 48px;">
-    <li dir="ltr" style="list-style-type: disc; font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline;" aria-level="1">
-    <p dir="ltr" style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" role="presentation"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">T&igrave;m ra 2 số cuối của giải đặc biệt:${random(
-      1,
-      99,
-      true
-    )}</span></p>
-    </li>
-    <li dir="ltr" style="list-style-type: disc; font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline;" aria-level="1">
-    <p dir="ltr" style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" role="presentation"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Giải T&aacute;m số đẹp:${random(
-      1,
-      99,
-      true
-    )}</span></p>
-    </li>
-    <li dir="ltr" style="list-style-type: disc; font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline;" aria-level="1">
-    <p dir="ltr" style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" role="presentation"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Cặp loto Xi&ecirc;n:${random(
-      1,
-      99,
-      true
-    )} - ${random(1, 99, true)}</span></p>
-    </li>
-    <li dir="ltr" style="list-style-type: disc; font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline;" aria-level="1">
-    <p dir="ltr" style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" role="presentation"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Tham khảo kết quả 2 cặp l&ocirc; chất lượng:${random(
-      1,
-      99,
-      true
-    )} - ${random(1, 99, true)}</span></p>
-    </li>
-    </ul>`;
-  })}
-  <h2 dir="ltr" style="line-height: 1.38; margin-top: 18pt; margin-bottom: 6pt;"><span style="font-size: 16pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Tổng hợp dự đo&aacute;n XSMN Thứ Hai ${replaceDashFromDate(
-    addingZeroToDate(today)
-  )} h&ocirc;m nay</span></h2>
-<p dir="ltr" style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">C&ugrave;ng thống k&ecirc; c&aacute;c bộ l&ocirc; của XSMN trước đ&acirc;y sẽ gồm: Giải đặc biệt, Cặp loto xuất hiện nhiều lần, L&ocirc; gan,... &aacute;p dụng chuỗi 10 v&agrave; 30 ng&agrave;y để c&oacute; nền tảng soi cầu ${province} ${
-    date[today.getDay()]
-  } tốt nhất:</span></p>
-  ${provinceInDay.map((item) => {
-    return `
-    <h3 dir="ltr" style="line-height: 1.38; margin-top: 16pt; margin-bottom: 4pt;"><span style="font-size: 13.999999999999998pt; font-family: Arial,sans-serif; color: #434343; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Tổng hợp KQXS đ&agrave;i ${
-      provinces[item]
-    } ng&agrave;y ${replaceDashFromDate(addingZeroToDate(today))} </span></h3>
-    <ul style="margin-top: 0; margin-bottom: 0; padding-inline-start: 48px;">
-    <li dir="ltr" style="list-style-type: disc; font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline;" aria-level="1">
-    <p dir="ltr" style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" role="presentation"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Ph&acirc;n t&iacute;ch Đầu - Đu&ocirc;i của GĐB:${random(
-      1,
-      99,
-      true
-    )}</span></p>
-    </li>
-    <li dir="ltr" style="list-style-type: disc; font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline;" aria-level="1">
-    <p dir="ltr" style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" role="presentation"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Kết quả giải 8 đ&agrave;i Đồng Th&aacute;p:${random(
-      1,
-      99,
-      true
-    )}</span></p>
-    </li>
-    <li dir="ltr" style="list-style-type: disc; font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline;" aria-level="1">
-    <p dir="ltr" style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" role="presentation"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">C&aacute;c cặp loto gan l&acirc;u chưa xuất hiện:${random(
-      1,
-      99,
-      true
-    )} - ${random(1, 99, true)}</span></p>
-    </li>
-    <li dir="ltr" style="list-style-type: disc; font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline;" aria-level="1">
-    <p dir="ltr" style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" role="presentation"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Cặp bộ l&ocirc; nổ nhiều: ${random(
-      1,
-      99,
-      true
-    )} - ${random(1, 99, true)}</span></p>
-    </li>
-    <li dir="ltr" style="list-style-type: disc; font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline;" aria-level="1">
-    <p dir="ltr" style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" role="presentation"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Cặp xi&ecirc;n VIP:${random(
-      1,
-      99,
-      true
-    )} - ${random(1, 99, true)}</span></p>
-    </li>
-    <li dir="ltr" style="list-style-type: disc; font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline;" aria-level="1">
-    <p dir="ltr" style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" role="presentation"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Tham khảo l&ocirc; Song thủ s&aacute;ng gi&aacute;:${random(
-      1,
-      99,
-      true
-    )} - ${random(1, 99, true)}</span></p>
-    </li>
-    <li dir="ltr" style="list-style-type: disc; font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline;" aria-level="1">
-    <p dir="ltr" style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;" role="presentation"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Những giải T&aacute;m tuyệt đẹp:${random(
-      1,
-      99,
-      true
-    )} - ${random(1, 99, true)} - ${random(1, 99, true)}</span></p>
-    </li>
-    </ul>
-    `;
-  })}
- 
- 
-  <h2 dir="ltr" style="line-height: 1.38; margin-top: 18pt; margin-bottom: 6pt;"><span style="font-size: 16pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Soi cầu XS${provinceKeyCap} ${replaceDashFromDate(
-    addingZeroToDate(today)
-  )} ${date[today.getDay()]}</span></h2>
-  <p dir="ltr" style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Soi cầu kết quả xổ số tiến h&agrave;nh cho số dựa v&agrave;o kết quả của thuật to&aacute;n ph&acirc;n t&iacute;ch, &aacute;p dụng cho 3 đ&agrave;i quay thưởng của </span><a style="text-decoration: none;" href="https://xosoaladin.com/kqxs/xo-so-mien-nam"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #1155cc; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: underline; -webkit-text-decoration-skip: none; text-decoration-skip-ink: none; vertical-align: baseline; white-space: pre-wrap;">XS${provinceKeyCap} </span></a><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">${
-    date[today.getDay()]
-  } gồm: ${provinceInDay.map((item) => provinces[item]).toString()}.</span></p>
-  ${provinceInDay.map((item) => {
-    return `
-    <h3 dir="ltr" style="line-height: 1.38; margin-top: 16pt; margin-bottom: 4pt;"><span style="font-size: 13.999999999999998pt; font-family: Arial,sans-serif; color: #434343; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Soi cầu bạch thủ đ&agrave;i ${
-      provinces[item]
-    } ${date[today.getDay()]} ng&agrave;y ${replaceDashFromDate(
-      addingZeroToDate(today)
-    )}</span></h3>
-    <p dir="ltr" style="line-height: 1.38; margin-top: 0pt; margin-bottom: 0pt;"><span style="font-size: 11pt; font-family: Arial,sans-serif; color: #000000; background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline; white-space: pre-wrap;">Anh em l&ocirc; thủ tham khảo c&aacute;c l&ocirc; bạch thủ được chuy&ecirc;n gia ph&acirc;n t&iacute;ch với cơ sở l&agrave; chuỗi cầu động 3 ng&agrave;y li&ecirc;n tục cho xổ số ${
-      provinces[item]
-    } ${date[today.getDay()]} h&ocirc;m nay: ${random(1, 99, true)}</span></p>`;
-  })}`;
+  <p style="box-sizing: border-box; vertical-align: baseline; overflow-wrap: break-word; line-height: 24px; margin: 5px; color: rgb(51, 51, 51); font-family: Arial, sans-serif, Tahoma, Helvetica; font-size: 15px;">Giờ vàng chốt số , dự đoán đầu đuôi, xỉu chủ, soi cầu , cặp lô đẹp hôm nay ngày ${addingZeroToDate(today)} mời các bạn cùng tham khảo:</p>
 
+  <p style="box-sizing: border-box; vertical-align: baseline; overflow-wrap: break-word; line-height: 24px; margin: 5px; color: rgb(51, 51, 51); font-family: Arial, sans-serif, Tahoma, Helvetica; font-size: 15px;">🌟 Soi cầu bạch thủ giải đặc biệt đầu, đuôi:&nbsp;<span style="box-sizing: border-box; vertical-align: baseline; overflow-wrap: break-word; color: rgb(255, 0, 0);"><strong style="box-sizing: border-box;">${random(1,99,true)}</strong></span></p>
+
+  <p style="box-sizing: border-box; vertical-align: baseline; overflow-wrap: break-word; line-height: 24px; margin: 5px; color: rgb(51, 51, 51); font-family: Arial, sans-serif, Tahoma, Helvetica; font-size: 15px;">🌟 Lô xiên bao lô 2 số:&nbsp;<span style="box-sizing: border-box; vertical-align: baseline; overflow-wrap: break-word; color: rgb(255, 0, 0);"><strong style="box-sizing: border-box;">${random(1,99,true)} - ${random(1,99,true)} - ${random(1,99,true)}</strong></span></p>
+
+  <p style="box-sizing: border-box; vertical-align: baseline; overflow-wrap: break-word; line-height: 24px; margin: 5px; color: rgb(51, 51, 51); font-family: Arial, sans-serif, Tahoma, Helvetica; font-size: 15px;">🌟 Soi cầu 3 càng ${province} vip bao trúng:&nbsp;<span style="box-sizing: border-box; vertical-align: baseline; overflow-wrap: break-word; color: rgb(255, 0, 0);"><strong style="box-sizing: border-box;">${random(100,999,true)} - ${random(100,999,true)}</strong></span></p>
+
+  <p style="box-sizing: border-box; vertical-align: baseline; overflow-wrap: break-word; line-height: 24px; margin: 5px; color: rgb(51, 51, 51); font-family: Arial, sans-serif, Tahoma, Helvetica; font-size: 15px;">🌟 Soi cầu lô kép ngon:&nbsp;<span style="box-sizing: border-box; vertical-align: baseline; overflow-wrap: break-word; color: rgb(255, 0, 0);"><strong style="box-sizing: border-box;">${random(1,99,true)} - ${random(1,99,true)}</strong></span></p>
+
+  <p style="box-sizing: border-box; margin: 0px 0px 10px; line-height: 22px;  margin: 5px; padding: 0px; text-align: justify; color: rgb(51, 51, 51); font-family: roboto, sans-serif; font-size: 14px;">🌟 Hai số cuối giải Đặc Biệt :&nbsp;<span style="box-sizing: border-box; color: rgb(255, 0, 0); line-height: 24px;"><span style="box-sizing: border-box; font-weight: 700;">${random(1,99,true)} – ${random(1,99,true)}</span></span></p>
+
+  <p style="box-sizing: border-box; margin: 0px 0px 10px; line-height: 22px;  margin: 5px; padding: 0px; text-align: justify; color: rgb(51, 51, 51); font-family: roboto, sans-serif; font-size: 14px;">🌟 Lô bạch thủ :&nbsp;<span style="box-sizing: border-box; color: rgb(255, 0, 0); line-height: 24px;"><span style="box-sizing: border-box; font-weight: 700;">${random(1,99,true)}</span></span></p>
+
+  <p style="box-sizing: border-box; margin: 0px 0px 10px; line-height: 22px;  margin: 5px; padding: 0px; text-align: justify; color: rgb(51, 51, 51); font-family: roboto, sans-serif; font-size: 14px;">🌟 Lô 2 số dễ ra :&nbsp;<span style="box-sizing: border-box; color: rgb(255, 0, 0); line-height: 24px;"><span style="box-sizing: border-box; font-weight: 700;">${random(1,99,true)} – ${random(1,99,true)} – ${random(1,99,true)}</span></span></p>
+
+  <p style="box-sizing: border-box; margin: 0px 0px 10px; line-height: 22px;  margin: 5px; padding: 0px; text-align: justify; color: rgb(51, 51, 51); font-family: roboto, sans-serif; font-size: 14px;">🌟 Lô song thủ VIP:&nbsp;<span style="box-sizing: border-box; color: rgb(255, 0, 0); line-height: 24px;"><span style="box-sizing: border-box; font-weight: 700;">${random(1,99,true)} – ${random(1,99,true)} ; ${random(1,99,true)} – ${random(1,99,true)}</span></span></p>
+  `
   return content;
 };
 
