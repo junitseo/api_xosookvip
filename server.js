@@ -171,8 +171,8 @@ setInterval(() => {
   }
 }, 2000);
 
-// cron.schedule("0 0 7 * * *", () => {
-//   autoCreatePost(1);
-//   autoCreatePost(2);
-//   autoCreatePost(3);
-// });
+cron.schedule("0 0 7 * * *", () => {
+  autoCreatePost(1);
+  autoCreatePost(2);
+  autoCreatePost(3);
+});
