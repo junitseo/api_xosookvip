@@ -28,7 +28,7 @@ exports.autoCreatePost = async (province = 1) => {
     let focus_keyword = []
 
     if (province === 1) {
-      post_title = `Soi cầu dự đoán Xổ Số Miền Bắc ngày ${moment().format(
+      post_title = `Dự đoán Xổ Số Miền Bắc ngày ${moment().format(
         "DD-MM-YYYY"
       )} - Dự đoán XSMB ${moment().format("DD/MM")}`;
       post_tags = ["xổ số miền Bắc", `Xổ Số Miền Bắc ngày ${moment().format(
@@ -52,7 +52,7 @@ exports.autoCreatePost = async (province = 1) => {
         "DD/MM"
       )} - Soi cầu dự đoán xổ số miền Bắc ngày${moment().format(
         "DD-MM-YYYY"
-      )} do cao thủ chốt số đưa ra siêu chuẩn, miễn phí ❤️ Dự đoán lô tô, giải đặc biệt MB ngày  ${moment().format(
+      )} do cao thủ chốt số đưa ra siêu chuẩn, miễn phí .Dự đoán lô tô, giải đặc biệt MB ngày  ${moment().format(
         "DD/MM"
       )}`;
 
@@ -60,7 +60,7 @@ exports.autoCreatePost = async (province = 1) => {
     } else if (province == 2) {
       const provincesInDay = getProvinceXsmt(toDay);
 
-      post_title = `Soi cầu dự đoán Xổ Số Miền Trung ngày ${moment().format(
+      post_title = `Dự đoán Xổ Số Miền Trung ngày ${moment().format(
         "DD-MM-YYYY"
       )} - Dự đoán XSMT ${moment().format("DD/MM")}`;
 
@@ -68,7 +68,7 @@ exports.autoCreatePost = async (province = 1) => {
         "DD/MM"
       )} - Soi cầu dự đoán xổ số miền Trung ngày${moment().format(
         "DD-MM-YYYY"
-      )} do cao thủ chốt số đưa ra siêu chuẩn, miễn phí ❤️ Dự đoán lô tô, giải đặc biệt MT ngày  ${moment().format(
+      )} do cao thủ chốt số đưa ra siêu chuẩn, miễn phí . Dự đoán lô tô, giải đặc biệt MT ngày  ${moment().format(
         "DD/MM"
       )}`;
       post_tags = ["xổ số miền Trung", `Xổ Số Miền Trung ngày ${moment().format(
@@ -91,7 +91,7 @@ exports.autoCreatePost = async (province = 1) => {
       post_content = generatePostContent(2, provincesInDay);
     } else {
       const provincesInDay = getProviceXsmn(toDay);
-      post_title = `Soi cầu dự đoán Xổ Số Miền Nam ngày ${moment().format(
+      post_title = `Dự đoán Xổ Số Miền Nam ngày ${moment().format(
         "DD-MM-YYYY"
       )} - Dự đoán XSMN ${moment().format("DD/MM")}`;
 
@@ -99,7 +99,7 @@ exports.autoCreatePost = async (province = 1) => {
         "DD/MM"
       )} - Soi cầu dự đoán xổ số miền Nam ngày${moment().format(
         "DD-MM-YYYY"
-      )} do cao thủ chốt số đưa ra siêu chuẩn, miễn phí ❤️ Dự đoán lô tô, giải đặc biệt MN ngày  ${moment().format(
+      )} do cao thủ chốt số đưa ra siêu chuẩn, miễn phí . Dự đoán lô tô, giải đặc biệt MN ngày  ${moment().format(
         "DD/MM"
       )}`;
 
@@ -1563,7 +1563,7 @@ const textOverlay = async (provinceId, date) => {
     const image = await Jimp.read(imageUrl);
     // Defining the text font
     const font = await Jimp.loadFont(Jimp.FONT_SANS_128_WHITE);
-    image.print(font, 430, 880, `${date}`);
+    image.print(font, 485, 890, `${date}`);
     // Writing image after processing
     await image.writeAsync(returnImageUrl);
     return imageName;
