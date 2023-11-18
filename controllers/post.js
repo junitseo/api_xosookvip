@@ -18,6 +18,7 @@ exports.autoCreatePost = async (province = 1) => {
     const toDay = moment().format("YYYY/MM/DD");
     const toDayDash = moment().format("DD-MM-YYYY");
     const image = await textOverlay(province, toDayDash);
+    const tax = await Taxonomy.findOne({ tax_slug: "du-doan" });
 
     let post_title = "";
     let post_description = "";
@@ -129,7 +130,7 @@ exports.autoCreatePost = async (province = 1) => {
       post_image,
       post_description,
       post_content,
-      post_taxid: ["647ae661bc84c248d38b09b9"],
+      post_taxid: tax._id ?? "",
       post_status: "public",
       post_slug: convertToSlug(post_title),
       focus_keyword,
